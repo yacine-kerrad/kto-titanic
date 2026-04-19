@@ -1,23 +1,19 @@
-message = "C'est mon premier script !!!"
-print(message)
+import unittest
 
-je_change_de_type = 1
-print(type(je_change_de_type))
-je_change_de_type = "coucou"
-print(type(je_change_de_type))
+MINIMUM_LETTERS = 7
 
-prenoms = ["Guillaume", "Gilles", "Juliette", "Antoine", "François", "Cassandre"]
-more_than_seven = 0
-for prenom in prenoms:
-    if len(prenom) > 7:
-        more_than_seven += 1
-        print(prenom + " est un prénom avec un nombre de lettres supérieur à 7")
-    else:
-        print(prenom + " est un prénom avec un nombre de lettres inférieur ou égal à 7")
-print("Nombre de prénoms dont le nombre de lettres est supérieur à 7 : " + str(more_than_seven))
+def count_names_with_more_than_seven_letters(first_names: list[str]) -> int:
+    count = 0
+    for first_name in first_names:
+        if len(first_name) > MINIMUM_LETTERS:
+            count += 1
+    return count
 
+class TestNamesMethod(unittest.TestCase):
+    def test_count_names_with_more_than_seven_letters(self):
+        first_names = ["Guillaume", "Gilles", "Juliette", "Antoine", "François", "Cassandre"]
+        result = count_names_with_more_than_seven_letters(first_names=first_names)
+        self.assertEqual(result, 4)
 
-def saluer(nom: str) -> str:
-    return "Bonjour " + nom
-
-print(saluer("Alice"))  # Affiche : Bonjour Alice
+if __name__ == '__main__':
+    unittest.main()
