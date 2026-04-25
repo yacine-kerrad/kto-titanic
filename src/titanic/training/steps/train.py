@@ -7,7 +7,7 @@ import mlflow # Nouvel import pour mlflow
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 
-client = mlflow.MlflowClient() # Client mlflow pour interagir avec le server de tracking
+client = mlflow.MlflowClient() # Client mlflow    pour interagir avec le server de tracking
 
 ARTIFACT_PATH = "model_trained"
 
