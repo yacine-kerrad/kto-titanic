@@ -6,7 +6,7 @@ import joblib
 import mlflow # Nouvel import pour mlflow
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
-
+import pickle
 client = mlflow.MlflowClient() # Client mlflow    pour interagir avec le server de tracking
 
 ARTIFACT_PATH = "model_trained"
@@ -26,7 +26,7 @@ def train(x_train_path: str, y_train_path: str, n_estimators: int, max_depth: in
     model = RandomForestClassifier(n_estimators=n_estimators, max_depth=max_depth, random_state=random_state)
     model.fit(x_train, y_train)
 
-    import pickle
+    
 
     model_filename = "model.pkl"
     with tempfile.TemporaryDirectory() as tmp_dir:
