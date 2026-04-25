@@ -26,10 +26,11 @@ def train(x_train_path: str, y_train_path: str, n_estimators: int, max_depth: in
     model = RandomForestClassifier(n_estimators=n_estimators, max_depth=max_depth, random_state=random_state)
     model.fit(x_train, y_train)
 
-    model_filename = "model.joblib"
-    with tempfile.TemporaryDirectory() as tmp_dir: # Utilisation d'un dossier temporaire
-        model_path = Path(tmp_dir, model_filename)
-        joblib.dump(model, model_path)
-        mlflow.log_artifact(str(model_path), ARTIFACT_PATH) # Log du modèle dans mlflow
+    import pickle
 
-    return f"{ARTIFACT_PATH}/{model_filename}" # Retourne le chemin du modèle dans mlflow
+    model_filename = "model.pkl"
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        model_path = Path(tmp_dir, model_filename)
+        with open(model_path, "wb") as f:
+            pickle.dump(model, f)
+        mlflow.log_artifact(str(model_path), ARTIFACT_PATH)

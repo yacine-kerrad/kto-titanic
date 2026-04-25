@@ -9,8 +9,7 @@ import os
 # TODO : Importer les dépendances utiles au bon développement en Python (dataclass, enum, pandas)
 # TODO : Importer les dépendances pour sérialiser / désérialiser le model
 
-# TODO : Importer les dépendances fastAPI
-# TODO : Importer les dépendances OTEL pour le monitoring
+from fastapi import FastAPI# TODO : Importer les dépendances OTEL pour le monitoring
 
 from titanic.api.auth import verify_token
 
@@ -20,7 +19,8 @@ JAEGER_ENDPOINT = os.getenv("JAEGER_ENDPOINT", "http://jaeger.yacinekerrad-dev.s
 # TODO : Intégrer les configurations d'OTEL et instancier le tracer. Peut être fait plus tard si le cours
 # sur l'observabilité n'est pas encore donné
 
-# TODO : Instancier l'application FastAPI
+
+app = FastAPI()
 
 # TODO : Ouvrir et charger en mémoire le pickle qui sérialise le model
 
@@ -30,7 +30,7 @@ JAEGER_ENDPOINT = os.getenv("JAEGER_ENDPOINT", "http://jaeger.yacinekerrad-dev.s
 # TODO : Créer Sex (enum)
 # TODO : Créer Passenger (attention, l'objet doit pouvoir être transmis en dictionnaire au model. Il faudra créer une méthode d'instance
 
-# TODO : Faire en sorte que cette fonction soit exposée via une toute GET /health
+@app.get("/health")
 def health() -> dict:
     return {"status": "OK"}
 
