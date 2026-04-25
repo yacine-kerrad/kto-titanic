@@ -34,3 +34,4 @@ def train(x_train_path: str, y_train_path: str, n_estimators: int, max_depth: in
         with open(model_path, "wb") as f:
             pickle.dump(model, f)
         mlflow.log_artifact(str(model_path), ARTIFACT_PATH)
+return f"{ARTIFACT_PATH}/{model_filename}"
