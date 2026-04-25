@@ -1,6 +1,6 @@
 from unittest.mock import patch
 import pandas as pd
-import joblib
+import pickle
 import shutil
 import numpy as np
 
@@ -15,8 +15,8 @@ def test_train_with_real_data(tmp_path):
     def mock_log_artifact_side_effect(path, artifact_path):
         """Capture le modèle avant suppression par TemporaryDirectory."""
         nonlocal saved_model_path
-        if path.endswith(".joblib"):
-            saved_model_path = tmp_path / "saved_model.joblib"
+        if path.endswith(".pkl"):
+            saved_model_path = tmp_path / "saved_model.pkl"
             shutil.copy(path, saved_model_path)
 
     with (
@@ -39,12 +39,13 @@ def test_train_with_real_data(tmp_path):
         result = train("xtrain/xtrain.csv", "ytrain/ytrain.csv", n_estimators=10, max_depth=3, random_state=42)
 
         assert "model_trained" in result
-        assert ".joblib" in result
+        assert ".pkl" in result
 
         assert saved_model_path is not None, "Le modèle devrait avoir été sauvegardé"
         assert saved_model_path.exists(), "Le fichier modèle devrait exister"
 
-        model = joblib.load(saved_model_path)
+        with open(saved_model_path, "rb") as f:
+            model = pickle.load(f)
         assert model is not None, "Le modèle devrait être chargeable"
 
         x_test = pd.get_dummies(x_train.head(5))
